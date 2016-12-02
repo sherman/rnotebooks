@@ -1,0 +1,27 @@
+---
+title: "Binominal criteria"
+output: html_notebook
+---
+
+A data description.
+1 - pass
+0 - fail
+
+n - total trials
+
+```{r}
+library(ggplot2)
+
+# generate data
+n <- 16
+data <- sample(c(0,1), 16, replace = TRUE)
+
+# get probabilty of passed trials
+probabilities <- c()
+for (i in 1:n)
+  probabilities[i] <- dbinom(i, n, 0.5)
+
+
+df <- data.frame("n" = c(1:length(probabilities)), "v" = probabilities)
+qplot(df$n, df$v)
+```
