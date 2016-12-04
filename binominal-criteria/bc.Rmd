@@ -23,5 +23,11 @@ for (i in 1:n)
 
 
 df <- data.frame("n" = c(1:length(probabilities)), "v" = probabilities)
-qplot(df$n, df$v)
+qplot(x = df$n, y = df$v)
+```
+
+Find a probability of getting 6 or less passed trial
+
+```{r}
+pbinom(6, 12, 0.5)
 ```
