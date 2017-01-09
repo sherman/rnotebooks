@@ -1,6 +1,6 @@
 {
   "name": "Rnotebooks",
   "tagline": "",
-  "body": "### R-notebooks\r\n\r\n[Binominal criteria](binominal-criteria/bc.nb.html)",
+  "body": "### R-notebooks\r\n\r\n[Binominal criteria](binominal-criteria/bc.nb.html)\r\n\r\n[One-tailed t-test](one-tailed-t-test/one-tailed-t-test.html)",
   "note": "Don't delete this file! It's used internally to help with page regeneration."
 }
