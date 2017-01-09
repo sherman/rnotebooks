@@ -120,27 +120,27 @@ $(document).ready(function () {
 </div>
 
 
-<p>Suppose, a known mean value is 146 and we know, that our experiment should increase mean value.</p>
+<p>Suppose, a known mean value is 146 and we know, that our experiment should increase a mean value.</p>
 <pre class="r"><code>oldMean &lt;- 146</code></pre>
 <p>Let’s do the experiment</p>
 <pre class="r"><code>data &lt;- round(rnorm(100, 150, 10))</code></pre>
 <p>And let’s see the experiment’s mean value.</p>
 <pre class="r"><code>mean(data)</code></pre>
-<pre><code>## [1] 149.85</code></pre>
+<pre><code>## [1] 149.62</code></pre>
 <p>The old mean is less than the experiment mean value. But does it matter statistically? For answer to this question we can use <a href="https://en.wikipedia.org/wiki/Student's_t-test">T-test</a> So, our <span class="math inline">\(H_0\)</span> is that mean values are equals. An alternative hypothesis is that the experiment’s mean value is greater than the old one.</p>
 <pre class="r"><code>t.test(data, mu = oldMean)</code></pre>
 <pre><code>## 
 ##  One Sample t-test
 ## 
 ## data:  data
-## t = 3.4735, df = 99, p-value = 0.0007636
+## t = 3.8436, df = 99, p-value = 0.0002143
 ## alternative hypothesis: true mean is not equal to 146
 ## 95 percent confidence interval:
-##  147.6507 152.0493
+##  147.7512 151.4888
 ## sample estimates:
 ## mean of x 
-##    149.85</code></pre>
-<p>P-value is small enough so that we can reject H_0 and accept the alternative hypothesis.</p>
+##    149.62</code></pre>
+<p>P-value is small enough so that we can reject <span class="math inline">\(H_0\)</span> and accept the alternative hypothesis.</p>
 
 
 

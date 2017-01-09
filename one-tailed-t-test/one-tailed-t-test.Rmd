@@ -3,7 +3,7 @@ title: "One-tailed t-test"
 output: html_document
 ---
 
-Suppose, a known mean value is 146 and we know, that our experiment should increase mean value.
+Suppose, a known mean value is 146 and we know, that our experiment should increase a mean value.
 ```{r}
 oldMean <- 146
 ```
@@ -24,4 +24,4 @@ So, our $H_0$ is that mean values are equals. An alternative hypothesis is that 
 ```{r}
 t.test(data, mu = oldMean)
 ```
-P-value is small enough so that we can reject H_0 and accept the alternative hypothesis.
+P-value is small enough so that we can reject $H_0$ and accept the alternative hypothesis.
