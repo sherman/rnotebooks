@@ -1,0 +1,27 @@
+---
+title: "One-tailed t-test"
+output: html_document
+---
+
+Suppose, a known mean value is 146 and we know, that our experiment should increase mean value.
+```{r}
+oldMean <- 146
+```
+
+Let's do the experiment
+```{r}
+data <- round(rnorm(100, 150, 10))
+```
+
+And let's see the experiment's mean value.
+```{r}
+mean(data)
+```
+The old mean is less than the experiment mean value. But does it matter statistically?
+For answer to this question we can use [T-test](https://en.wikipedia.org/wiki/Student's_t-test)
+So, our $H_0$ is that mean values are equals. An alternative hypothesis is that the experiment's mean value is greater than the old one.
+
+```{r}
+t.test(data, mu = oldMean)
+```
+P-value is small enough so that we can reject H_0 and accept the alternative hypothesis.
