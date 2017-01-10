@@ -22,6 +22,6 @@ For answer to this question we can use [T-test](https://en.wikipedia.org/wiki/St
 So, our $H_0$ is that mean values are equals. An alternative hypothesis is that the experiment's mean value is greater than the old one.
 
 ```{r}
-t.test(data, mu = oldMean)
+t.test(data, mu = oldMean, alternative = "greater")
 ```
 P-value is small enough so that we can reject $H_0$ and accept the alternative hypothesis.
