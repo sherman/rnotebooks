@@ -1,0 +1,28 @@
+---
+title: "ggplot basics"
+output:
+  html_document: default
+  html_notebook: default
+---
+
+```{r}
+library(ggplot2)
+
+# generate data
+
+n <- 64
+
+data <- as.integer(rlnorm(n, log(3000), log(10)))
+
+data <- data[order(data, decreasing = TRUE)]
+
+df <- data.frame('months' = seq(1:length(data)), 'users' = data)
+
+ggplot(df, aes(x = df$months, y = df$users)) + 
+  geom_bar(stat="identity", fill=I("blue"), col=I("red"), alpha=I(.2)) +
+  scale_x_discrete(labels = c(1:length(df$months))) +
+  xlab("Months") + 
+  ylab("Users")
+
+```
+
