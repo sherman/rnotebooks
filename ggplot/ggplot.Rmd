@@ -4,10 +4,13 @@ output:
   output: html_notebook
 ---
 
+## Histogram
+
 ```{r}
 library(ggplot2)
 
 # generate data
+set.seed(42)
 
 n <- 64
 
@@ -25,3 +28,56 @@ ggplot(df, aes(x = df$months, y = df$users)) +
 
 ```
 
+## Line charts
+
+```{r}
+library("reshape2")
+
+# generate data
+set.seed(42)
+
+n <- 16
+
+split_groups1 <- as.integer(rnorm(n, 3000, 200))
+split_groups2 <- as.integer(rnorm(n, 3000, 200))
+
+dates <- seq(as.Date("2017-01-01"), by = "day", length.out = n)
+
+df <- data.frame('date' = dates, 'grp_1' = split_groups1, 'grp_2' = split_groups2)
+
+df <- melt(df, id = "date")
+
+ggplot(data = df, aes(x = date, y = value, colour = variable)) +
+    geom_line() +
+    geom_point(size = 4, shape = 21, fill = "white")
+```
+
+## Line charts (with csv-like input format)
+
+```{r}
+library("reshape2")
+
+# generate data
+set.seed(42)
+
+n <- 16
+
+split_groups1 <- as.integer(rnorm(n, 3000, 10))
+split_groups2 <- as.integer(rnorm(n, 3020, 10))
+
+dates <- seq(as.Date("2017-01-01"), by = "day", length.out = n)
+
+value <- c(split_groups1, split_groups2)
+
+group <- as.factor(c(rep(1, length(split_groups1)), rep(2, length(split_groups2))))
+
+df <- data.frame('date' = dates, 'value' = value, 'group' = group)
+
+df <- df[order(df$date),]
+
+ggplot(data = df, aes(x = date, y = value, group = group, colour = group)) +
+    geom_line() +
+    geom_point(size = 4, shape = 21, fill = "white")
+
+
+```
