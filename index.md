@@ -6,4 +6,4 @@
 
 [Basic ggplot](ggplot/ggplot.html)
 
-
+[Value decomposition](value-decomposition/decompose.html)

@@ -1,0 +1,33 @@
+---
+title: "Value Decomposition"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Trends
+
+```{r}
+library(forecast)
+
+# generate data
+set.seed(42)
+
+n <- 512
+
+trendless <- as.integer(rnorm(n, 3000, 200))
+trend <- ma(trendless, order = 4, centre = T)
+plot(as.ts(trend))
+
+# generate data with a trend
+
+trendfull <- cumsum(as.integer(rnorm(n, 2, 10)))
+trendfull <- tail(head(trendfull, 300), 150)
+trend <- ma(trendfull, order = 8, centre = T)
+plot(as.ts(trendfull), col = 'blue')
+lines(trend, col = 'red')
+
+
+```
