@@ -7,3 +7,5 @@
 [Basic ggplot](ggplot/ggplot.html)
 
 [Value decomposition](value-decomposition/decompose.html)
+
+[Outliers detection](outliers/outliers.html)

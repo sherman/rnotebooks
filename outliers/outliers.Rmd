@@ -1,0 +1,32 @@
+---
+title: "Outliers detection"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Trends
+
+```{r}
+library(xts)
+
+# generate data
+set.seed(42)
+
+n <- 128
+k <- 32
+
+trendless <- as.integer(rnorm(n * k, 3000, 10))
+dates <- seq(as.Date("2017-01-01"), by = "day", length.out = n)
+dates <- as.Date(dates, format = "%Y-%m-%d", tz = "UTC")
+
+df <- data.frame('date' = rep(dates, each = k), 'value' = trendless)
+
+ts <- xts(df$value, order.by = df$date)
+
+# see outliers with a boxplot
+boxplot(df$value ~ df$date)
+
+```
