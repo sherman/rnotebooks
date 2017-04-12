@@ -24,8 +24,6 @@ dates <- as.Date(dates, format = "%Y-%m-%d", tz = "UTC")
 
 df <- data.frame('date' = rep(dates, each = k), 'value' = trendless)
 
-ts <- xts(df$value, order.by = df$date)
-
 # see outliers with a boxplot
 boxplot(df$value ~ df$date)
 

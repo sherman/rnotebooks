@@ -120,8 +120,8 @@ $(document).ready(function () {
 </div>
 
 
-<div id="trends" class="section level2">
-<h2>Trends</h2>
+<div id="visual-way-boxplot" class="section level2">
+<h2>Visual way (boxplot)</h2>
 <pre class="r"><code>library(xts)</code></pre>
 <pre><code>## Loading required package: zoo</code></pre>
 <pre><code>## 
@@ -140,8 +140,6 @@ dates &lt;- seq(as.Date(&quot;2017-01-01&quot;), by = &quot;day&quot;, length.ou
 dates &lt;- as.Date(dates, format = &quot;%Y-%m-%d&quot;, tz = &quot;UTC&quot;)
 
 df &lt;- data.frame('date' = rep(dates, each = k), 'value' = trendless)
-
-ts &lt;- xts(df$value, order.by = df$date)
 
 # see outliers with a boxplot
 boxplot(df$value ~ df$date)</code></pre>
