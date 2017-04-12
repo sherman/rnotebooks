@@ -4,10 +4,34 @@ output:
   output: html_notebook
 ---
 
-## Histogram
+## Scatter plot (with linear regression line)
 
 ```{r}
 library(ggplot2)
+
+# generate data
+set.seed(42)
+
+n <- 32
+
+values <- as.integer(rnorm(n, 3000, 10))
+
+dates <- seq(as.Date("2017-01-01"), by = "day", length.out = n)
+
+df <- data.frame('date' = dates, 'value' = values)
+
+df <- df[order(df$date),]
+
+ggplot(data = df, aes(x = date, y = value, colour = value)) +
+    geom_point(size = 4, shape = 21, fill = "white") +
+    geom_smooth(method = glm, se = TRUE, formula = y ~ x)  
+
+
+```
+
+## Histogram
+
+```{r}
 
 # generate data
 set.seed(42)
@@ -78,6 +102,5 @@ df <- df[order(df$date),]
 ggplot(data = df, aes(x = date, y = value, group = group, colour = group)) +
     geom_line() +
     geom_point(size = 4, shape = 21, fill = "white")
-
 
 ```
