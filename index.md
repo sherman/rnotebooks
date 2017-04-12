@@ -4,7 +4,7 @@
 
 [One-tailed t-test](one-tailed-t-test/one-tailed-t-test.html)
 
-[Basic ggplot](ggplot/ggplot.html)
+[Basic ggplot](ggplot/ggplot.nb.html)
 
 [Value decomposition](value-decomposition/decompose.html)
 
