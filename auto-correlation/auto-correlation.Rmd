@@ -46,9 +46,9 @@ acf(trendfull, lag.max = 1, type = c("correlation"), plot = TRUE, na.action = na
 ## Rolling auto-correlation (trendfull)
 
 ```{r}
-window_size <- 1
+window_size <- 10
 
-acf(trendfull, plot = TRUE, lag.max = window_size - 1)
+#acf(trendfull, plot = TRUE, lag.max = window_size - 1)
 
 acf_lag <- function(elt, lag) {
   acf(elt, plot = FALSE, lag.max = lag)$acf[1 + lag]
@@ -62,14 +62,14 @@ acf_lag_2 <- function(elt) {
   acf_lag(elt, 2)
 }
 
-acf_window <- rollify(acf_lag_1, window = window_size + 1)
+acf_window <- rollify(acf_lag_1, window = window_size)
 
 trendfull_df <- as.data.frame(trendfull)
 
 trendfull_df <- trendfull_df %>%
   mutate(ac = acf_window(trendfull)) %>%
   mutate(num = seq_along(trendfull)) %>%
-  mutate(trend = ma(trendfull, order = window_size, centre = T) / 1000) %>%
+  mutate(trend = ma(trendfull, order = window_size, centre = T) / 500) %>%
   mutate(
     trend = replace_na(trend, 0),
     ac = replace_na(ac, 0)
@@ -86,12 +86,14 @@ ggplot() +
 ## Rolling auto-correlation (trendless)
 
 ```{r}
+#acf(trendless, lag.max = 1)
+
 trendless_df <- as.data.frame(trendless)
 
 trendless_df <- trendless_df %>%
   mutate(ac = acf_window(trendless)) %>%
   mutate(num = seq_along(trendless)) %>%
-  mutate(trend = ma(trendless, order = window_size, centre = T) / 1000) %>%
+  mutate(trend = ma(trendless, order = window_size, centre = T) / 5000) %>%
   mutate(
     trend = replace_na(trend, 0),
     ac = replace_na(ac, 0)
