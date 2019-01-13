@@ -1,0 +1,100 @@
+---
+title: "Auto-correlation"
+output:
+  html_document:
+    df_print: paged
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library("tidyverse")
+library("forecast")
+library("tibbletime")
+```
+
+H1. Generate data
+```{r}
+set.seed(42)
+
+n <- 512
+
+# no trend
+trendless <- as.integer(rnorm(n, 3000, 200))
+trend <- ma(trendless, order = 4, centre = T)
+plot(as.ts(trendless), col = 'blue')
+lines(trend, col = 'red')
+
+trendfull <- cumsum(as.integer(rnorm(n, 2, 10)))
+trendfull <- tail(head(trendfull, 300), 150)
+trend <- ma(trendfull, order = 8, centre = T)
+plot(as.ts(trendfull), col = 'blue')
+lines(trend, col = 'red')
+```
+
+H1. Auto-correlation (built in)
+```{r}
+acf(trendless, lag.max = 1, type = c("correlation"), plot = TRUE, na.action = na.fail)
+acf(trendfull, lag.max = 1, type = c("correlation"), plot = TRUE, na.action = na.fail)
+```
+H2. Rolling auto-correlation (trendfull)
+```{r}
+window_size <- 1
+
+acf(trendfull, plot = TRUE, lag.max = window_size - 1)
+
+acf_lag <- function(elt, lag) {
+  acf(elt, plot = FALSE, lag.max = lag)$acf[1 + lag]
+}
+
+acf_lag_1 <- function(elt) {
+  acf_lag(elt, 1)
+}
+
+acf_lag_2 <- function(elt) {
+  acf_lag(elt, 2)
+}
+
+acf_window <- rollify(acf_lag_1, window = window_size + 1)
+
+trendfull_df <- as.data.frame(trendfull)
+
+trendfull_df <- trendfull_df %>%
+  mutate(ac = acf_window(trendfull)) %>%
+  mutate(num = seq_along(trendfull)) %>%
+  mutate(trend = ma(trendfull, order = window_size, centre = T) / 1000) %>%
+  mutate(
+    trend = replace_na(trend, 0),
+    ac = replace_na(ac, 0)
+  )
+
+trendfull_df
+
+ggplot() +
+  geom_line(data = trendfull_df, aes(x = num, y = ac), size = 0.5, color = "#0000cc") +
+  geom_line(data = trendfull_df, aes(x = num, y = trend), size = 0.5, color = "#cc0000")
+  
+```
+
+```{r}
+trendless_df <- as.data.frame(trendless)
+
+trendless_df <- trendless_df %>%
+  mutate(ac = acf_window(trendless)) %>%
+  mutate(num = seq_along(trendless)) %>%
+  mutate(trend = ma(trendless, order = window_size, centre = T) / 1000) %>%
+  mutate(
+    trend = replace_na(trend, 0),
+    ac = replace_na(ac, 0)
+  )
+
+trendless_df
+
+ggplot() +
+  geom_line(data = trendless_df, aes(x = num, y = ac), size = 0.5, color = "#0000cc") +
+  geom_line(data = trendless_df, aes(x = num, y = trend), size = 0.5, color = "#cc0000")
+  
+```

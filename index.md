@@ -9,3 +9,5 @@
 [Value decomposition](value-decomposition/decompose.html)
 
 [Outliers detection](outliers/outliers.html)
+
+[Auto-Correlation](auto-correlation/auto-correlation.html)
