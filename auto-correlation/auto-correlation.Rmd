@@ -144,7 +144,6 @@ trendless2_df <- trendless2_df %>%
     ac = replace_na(ac, 0)
   )
   
-
 trendless2_df
   
 ggplot() +
@@ -156,5 +155,42 @@ ggplot() +
   
 ```
 
+## Significance tests (rolling pearsong correlation test, p-value)
+
+```{r}
+cor_test_pearson <- function(data, lag) {
+  cor.test(data, lag(data), method = "pearson")$p.value
+}
+
+cor_test_spearman <- function(data, lag) {
+  cor.test(data, lag(data), method = "spearman")$p.value
+}
+
+cor_test_pearson_lag_1 <- function(data) {
+  cor_test_pearson(data, 1)
+}
+
+cor_test_spearman_lag_1 <- function(data) {
+  cor_test_spearman(data, 1)
+}
+
+cor_test_pearson_window <- rollify(cor_test_pearson_lag_1, window = window_size)
+cor_test_spearman_window <- rollify(cor_test_spearman_lag_1, window = window_size)
+
+trendless2_df <- trendless2_df %>%
+  mutate(cor_sig_pearson_p = ifelse(cor_test_pearson_window(trendless2) < 0.05, 1, 0)) %>%
+  mutate(cor_sig_spearman_p = ifelse(cor_test_spearman_window(trendless2) < 0.05, 1, 0)) %>% # bivariate normal distribution is not required
+  mutate(
+    cor_sig_pearson_p = replace_na(cor_sig_pearson_p, 0),
+    cor_sig_spearman_p = replace_na(cor_sig_spearman_p, 0)
+  )
+
+trendless2_df
+
+ggplot() +
+  geom_line(data = trendless2_df, aes(x = num, y = cor_sig_pearson_p), size = 0.5, color = "#0000cc") + 
+  geom_line(data = trendless2_df, aes(x = num, y = cor_sig_spearman_p), size = 0.5, color = "#cc0000")
 
 
+```
+ ^
