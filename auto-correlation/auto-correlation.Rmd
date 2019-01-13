@@ -120,7 +120,7 @@ trendless2_neg <- as.integer(-rnorm(n / 2, 3000, 200))
 trendless2 <- c(trendless2_pos, trendless2_neg)
 trendless2 <- sample(trendless2)
 
-trendfull2 <- cumsum(as.integer(rnorm(n / 10, 100, 700)))
+trendfull2 <- cumsum(as.integer(rnorm(n / 10, 100, 300)))
 trendfull2 <- tail(head(trendfull2, 50), 50)
 plot(trendfull2)
 acf(trendfull2, lag.max = 1)
