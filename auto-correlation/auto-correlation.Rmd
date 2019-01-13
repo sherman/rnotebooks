@@ -29,6 +29,7 @@ trend <- ma(trendless, order = 4, centre = T)
 plot(as.ts(trendless), col = 'blue')
 lines(trend, col = 'red')
 
+# trend
 trendfull <- cumsum(as.integer(rnorm(n, 2, 10)))
 trendfull <- tail(head(trendfull, 300), 150)
 trend <- ma(trendfull, order = 8, centre = T)
@@ -106,3 +107,54 @@ ggplot() +
   geom_line(data = trendless_df, aes(x = num, y = trend), size = 0.5, color = "#cc0000")
   
 ```
+
+## Generate trendless
+
+```{r}
+#set.seed(42)
+window_size <- 5
+
+trendless2_pos <- as.integer(rnorm(n / 2, 3000, 200))
+trendless2_neg <- as.integer(-rnorm(n / 2, 3000, 200))
+
+trendless2 <- c(trendless2_pos, trendless2_neg)
+trendless2 <- sample(trendless2)
+
+trendfull2 <- cumsum(as.integer(rnorm(n / 10, 100, 300)))
+trendfull2 <- tail(head(trendfull2, 50), 50)
+plot(trendfull2)
+
+chunks <- split(trendless2, ceiling(seq_along(trendless2) / 256))
+
+trendless2 <- c(unlist(chunks[1]), trendfull2, unlist(chunks[2]))
+
+trendless2_df <- data.frame(trendless2)
+trendless2_df
+
+trendless2_df <- trendless2_df %>%
+  mutate(num = seq_along(trendless2)) %>%
+  mutate(sum = cumsum(trendless2)) %>%
+  mutate(trend = ma(sum, order = window_size, centre = T)) %>%
+  mutate(ac = acf_window(trendless2)) %>%
+  mutate(
+    trend = replace_na(trend, 0),
+    sum = replace_na(sum, 0),
+    ac = replace_na(ac, 0)
+  )
+  
+
+#trendless2_df
+acf(trendless2, lag.max = 1)
+  
+ggplot() +
+  geom_line(data = trendless2_df, aes(x = num, y = sum), size = 0.5, color = "#0000cc") +
+  geom_line(data = trendless2_df, aes(x = num, y = trend), size = 0.5, color = "#cc0000")
+  
+ggplot() +
+  geom_line(data = trendless2_df, aes(x = num, y = ac), size = 0.5, color = "#0000cc") +
+  geom_line(data = trendless2_df, aes(x = num, y = trend), size = 0.5, color = "#cc0000")
+  
+```
+
+
+
