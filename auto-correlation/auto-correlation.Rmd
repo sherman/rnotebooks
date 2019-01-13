@@ -3,6 +3,8 @@ title: "Auto-correlation"
 output:
   html_document:
     df_print: paged
+    toc: true
+    toc_depth: 3
 ---
 
 
