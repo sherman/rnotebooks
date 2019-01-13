@@ -16,7 +16,8 @@ library("forecast")
 library("tibbletime")
 ```
 
-H1. Generate data
+## Generate data
+
 ```{r}
 set.seed(42)
 
@@ -35,12 +36,15 @@ plot(as.ts(trendfull), col = 'blue')
 lines(trend, col = 'red')
 ```
 
-H1. Auto-correlation (built in)
+## Auto-correlation (built in)
+
 ```{r}
 acf(trendless, lag.max = 1, type = c("correlation"), plot = TRUE, na.action = na.fail)
 acf(trendfull, lag.max = 1, type = c("correlation"), plot = TRUE, na.action = na.fail)
 ```
-H2. Rolling auto-correlation (trendfull)
+
+## Rolling auto-correlation (trendfull)
+
 ```{r}
 window_size <- 1
 
@@ -78,6 +82,8 @@ ggplot() +
   geom_line(data = trendfull_df, aes(x = num, y = trend), size = 0.5, color = "#cc0000")
   
 ```
+
+## Rolling auto-correlation (trendless)
 
 ```{r}
 trendless_df <- as.data.frame(trendless)
